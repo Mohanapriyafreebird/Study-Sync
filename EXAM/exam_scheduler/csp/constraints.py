@@ -1,3 +1,4 @@
+
 from constraint import Problem
 
 class ExamConstraints:
@@ -86,4 +87,3 @@ class ExamConstraints:
 
     def get_problem(self):
         return self.problem
-
