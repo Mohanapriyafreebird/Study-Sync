@@ -7,12 +7,25 @@ from csp.scheduler import ExamScheduler
 
 def authenticate_admin(admin_id, passcode, db_file):
     conn = create_connection(db_file)
-    if conn is not None:
-        cur = conn.cursor()
-        cur.execute("SELECT * FROM users WHERE id=? AND passcode=? AND role='admin'", (admin_id, passcode))
-        user = cur.fetchone()
-        conn.close()
-        return user is not None
+    if conn:
+        try:
+            cur = conn.cursor()
+            cur.execute("""
+                SELECT * FROM users 
+                WHERE id=? AND passcode=? AND role='admin'
+            """, (admin_id, passcode))
+            user = cur.fetchone()
+            if user:
+                print("Admin login successful")  # Debug log
+                return True
+            else:
+                print("Invalid credentials")  # Debug log
+                return False
+        except sqlite3.Error as e:
+            print(f"Database error: {e}")  # Debug log
+            return False
+        finally:
+            conn.close()
     return False
 
 def manage_departments(db_file):
