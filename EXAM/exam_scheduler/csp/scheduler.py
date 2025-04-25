@@ -364,4 +364,3 @@ def view_schedule(db_file):
     else:
         st.info("No exams scheduled yet")
 
-
